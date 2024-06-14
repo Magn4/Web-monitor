@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: monitoring-app
+    depends_on:
+      - db
+      - html_db
+    ports:
+      - "8080:8080"
+    environment:
+      - DATABASE_HOST=db
+      - DATABASE_PORT=3306
+      - DATABASE_NAME=website_monitor
+      - DATABASE_USER=root
+      - DATABASE_PASSWORD=password123
+      - HTML_DATABASE_HOST=html_db
+      - HTML_DATABASE_PORT=3306
+      - HTML_DATABASE_NAME=website_monitor_html
+      - HTML_DATABASE_USER=root
+      - HTML_DATABASE_PASSWORD=password123
+
+  db:
+    image: mysql:8.0
+    container_name: mysql-db
+    environment:
+      MYSQL_ROOT_PASSWORD: password123
+      MYSQL_DATABASE: website_monitor
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./init-user-db.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "3307:3306"
+
+  html_db:
+    image: mysql:8.0
+    container_name: mysql-html-db
+    environment:
+      MYSQL_ROOT_PASSWORD: password123
+      MYSQL_DATABASE: website_monitor_html
+    volumes:
+      - html_db_data:/var/lib/mysql
+      - ./init-html-db.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "3308:3306"
+
+volumes:
+  db_data:
+  html_db_data:
