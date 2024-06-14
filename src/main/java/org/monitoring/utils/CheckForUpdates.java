@@ -4,7 +4,7 @@ import org.monitoring.services.DatabaseManager;
 
 public class CheckForUpdates {
     public static void changed(int strategy, String URL) {
-        String newContent = BashCommandExecutor.getHTML(URL);
+        String content = BashCommandExecutor.getHTML(URL);
         String oldContent = DatabaseManager.getHtmlContent(URL);
 
         if (oldContent == null) {
@@ -15,19 +15,20 @@ public class CheckForUpdates {
         boolean hasChanged = false;
 
         switch (strategy) {
-            // Identical Content size
-            case 1:
-                hasChanged = checkContentSize(oldContent, newContent);
-                break;
+            // Identical content size
 
+            case 1:
+                hasChanged = checkContentSize(oldContent, content);
+                break;
+    
             // Identical html content
             case 2:
-                hasChanged = checkHtmlContent(oldContent, newContent);
+                hasChanged = checkHtmlContent(oldContent, content);
                 break;
-                
+
             // Identical text content
             case 3:
-                hasChanged = checkTextContent(oldContent, newContent);
+                hasChanged = checkTextContent(oldContent, content);
                 break;
 
             default:

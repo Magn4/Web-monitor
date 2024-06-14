@@ -29,6 +29,10 @@ public class WebsiteMonitor {
             String previous = previousContent.get(websiteURL);
             String current = DatabaseManager.getHtmlContent(websiteURL);
     
+            if (current == null) {
+                return false;
+            }
+    
             if (previous != null && !previous.equals(current)) {
                 previousContent.put(websiteURL, current);
                 if (current.contains(keyword)) {
@@ -42,6 +46,7 @@ public class WebsiteMonitor {
         }
         return false;
     }
+    
     
 
     public void fetchAndUpdateWebsiteContent(String websiteURL) throws Exception {

@@ -10,7 +10,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 public class NotificationService {
-    private final String fromEmail = "test@example.com";
+    private final String fromEmail = "t.elyoussefi02@gmail.com";
 
     public void sendEmail(String toEmail, String messageContent) {
         Properties properties = new Properties();
